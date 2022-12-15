@@ -9,36 +9,33 @@ python -m pip install --upgrade pandas
 python -m pip install openpyxl
 
 
-Avec le Raspberry Pi et certains capteurs, il est facile de mesurer la température sans trop d’effort. 
-De plus, cependant, l’humidité dans certaines situations ou projets (comme une station météorologique) peut être éclairante. 
+Avec un Raspberry Pi et quelques capteurs, vous pouvez facilement mesurer la température sans aucun tracas.
+Cependant, il peut également révéler de l'humidité dans certaines situations et projets (comme les stations météorologiques). 
 
- # Enregistrer les données des capteurs Raspberry Pi avec ThingSpeak et les analyser
- Il arrive fréquemment que de nombreuses données soient générées dans des projets qui fonctionnent 24 heures sur 24. 
- Une façon de les conserver en permanence est de stocker les données dans une base de données locale. 
- Cependant,il y a aussi des raisons qui plaident contre cette solution. Pour que les données mesurées 
- (par exemple, celles d’une station météorologique) restent disponibles à l’avenir, il est également possible d’éviter divers services en ligne.
+ # Utilisez ThingSpeak pour enregistrer et analyser les données du capteur Raspberry Pi
+Les projets qui tournent 24 heures sur 24 génèrent souvent beaucoup de données.
+Une façon de les garder persistants consiste à stocker les données dans une base de données locale.
+Mais il y a aussi des raisons contre cette solution. Les données mesurées sont donc
+(par exemple ceux des stations météorologiques) continueront d'être disponibles à l'avenir, et divers services en ligne pourraient ne plus être nécessaires.
+L'un de ces fournisseurs est ThingSpeak. Vous pouvez y créer un compte gratuit pour les petites applications et transférer facilement vos données.
 
-L’un de ces fournisseurs est ThingSpeak. Vous pouvez y créer un compte gratuit pour de petites applications et transférer ses données très facilement. 
+ ## Comment puis-je transférer les données des capteurs vers ThingSpeak pour évaluation ?
+Avant de commencer, vous avez besoin d'un compte ThingSpeak.
+Si vous n'avez pas encore de compte, créez-en un ici. Créez ensuite une nouvelle chaîne sous
+https://thingspeak.com/channels.
 
-## Comment transférer des données de capteurs vers ThingSpeak et les évaluer par la suite?
-
-Avant de commencer, vous devez avoir un compte sur ThingSpeak. 
-Créez un compte ici si vous n’en avez pas encore. Ensuite, créez un nouveau canal à https://thingspeak.com/channels.
-
-Ici, vous donnez un nom au canal ainsi que les champs que vous voulez utiliser. Au total, on peut utiliser jusqu’à 8 champs. Les noms donnés n’ont aucune influence sur la transmission des données, car nous spécifions seulement « champ1 », « champ2 », etc. Tous ces noms attribués sont toujours modifiables ultérieurement.
+Ici, vous donnez un nom au canal et les champs que vous souhaitez utiliser. Un total de 8 champs sont autorisés. Les noms spécifiés n'ont aucun effet sur le transfert de données, car vous ne spécifiez que "field1", "field2", etc. Vous pouvez toujours modifier ces noms attribués ultérieurement.
 ![image](https://user-images.githubusercontent.com/61162446/207810926-15e4b407-03c7-4d57-8de1-f60caa4a5bbb.png)
-Après avoir enregistré le canal ci-dessous, vous serez automatiquement redirigé vers l’onglet « Vue privée ». Ici, les champs attribués sont affichés sous forme de diagramme. Plus haut, vous trouverez l' »ID du Canal« . Nous en aurons bientôt besoin.
+Abonnez-vous aux chaînes ci-dessous et vous serez automatiquement redirigé vers l'onglet Vue privée. Les champs attribués sont représentés ici sous forme de diagramme. En haut se trouve le "ID de chaîne". vous en aurez besoin bientôt.
+Passons maintenant à l'onglet "Clés API". Pour écrire et récupérer des données, vous avez également besoin de deux valeurs : "Write API Key" et "Read API Key".
 
-Ensuite, nous passons à l’onglet « Clés API ». Les deux valeurs « Écrire la clé API » et « Lire la clé API » sont également nécessaires pour que nous puissions écrire ou récupérer des données
+ ## Utilisation de la bibliothèque ThingSpreak sur Raspberry Pi
+Pour utiliser ce service, il suffit d'envoyer des données avec "POST" ou de récupérer des données avec "GET". Les fonctions sont disponibles dans presque tous les langages de programmation et, avec un peu de connaissances, le transfert de données peut être effectué rapidement. Les réponses sont généralement JSON.
+Vous pouvez également utiliser la bibliothèque ThingSpeak si vous n'avez pas assez d'expérience ou si vous ne voulez pas écrire la vôtre. Pour ce faire, installez simplement via pip.
+    Pip install Thingspeak
 
-## Utilisation de la bibliothèque ThingSpreak de Raspberry Pi
-Pour pouvoir utiliser le service, il est possible d’envoyer simplement les données via « POST » ou de les récupérer via « GET ». Les fonctions sont disponibles dans à peu près tous les langages de programmation et avec un peu de connaissances, le transfert de données devrait être rapide. Les réponses sont en principe en JSON.
-
-Si vous n’avez pas assez d’expérience ou si vous n’avez tout simplement pas envie de l’écrire vous-même, vous pouvez également utiliser la bibliothèque ThingSpeak. Pour cela, nous l’installons simplement par pip :
-       pip install thingspeak
-
-Alors commençons. Notre script Python devrait lire la température toutes les 15 secondes et les envoyer à notre canal. En outre, les données devraient ensuite être récupérées à nouveau .
-Nous allons créer un nouveau fichier,
+ Commençons. Le script Python doit lire la température toutes les 15 secondes et l'envoyer au canal. De plus, les données doivent être récupérées à nouveau. créer un nouveau fichier,
+trucs_parle_exemple.py
      thingspeak_example.py
 
 
